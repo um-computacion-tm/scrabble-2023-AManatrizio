@@ -1,1 +1,2 @@
-.DS_Store
+# Ignora archivos del sistema Mac 
+.DS_store
