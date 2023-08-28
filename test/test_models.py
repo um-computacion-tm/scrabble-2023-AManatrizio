@@ -1,5 +1,4 @@
 import unittest
-
 from game.models import (
     BagTiles,
     Tile,
@@ -31,6 +30,7 @@ class TestBagTiles(unittest.TestCase):
             bag.tiles,
         )
 
+
     def test_take(self):
         bag = BagTiles()
         tiles = bag.take(2)
@@ -51,6 +51,7 @@ class TestBagTiles(unittest.TestCase):
             len(bag.tiles),
             7,
         )
+
 
 if __name__ == '__main__':
     unittest.main()
