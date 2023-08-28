@@ -5,7 +5,7 @@ class Tile:
         self.letter = letter
         self.value = value
 
-#todas las letras que tiene la bolsa
+
 class BagTiles:
     def __init__(self):
         self.tiles = [
