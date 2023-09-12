@@ -14,14 +14,11 @@ class TestScrabbleGame(unittest.TestCase):
 
 
 
-
     # def test_next_turn_when_game_is_starting(self):
     #     #validar que al comienzo, el turno es del jugador 1
     #      scrabble_game = ScrabbleGame(players_count=3)
 
     #      assert scrabble_game.current_player == scrabble_game.players[0]
-
-
 
 
 

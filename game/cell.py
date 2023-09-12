@@ -6,7 +6,9 @@ class Cell:
         self.multiplier_type = multiplier_type
         self.letter = letter
 
-    
+    def is_empty(self) -> bool:
+        return self.letter is None
+
     def add_letter(self, letter:Tile):
         self.letter = letter
 

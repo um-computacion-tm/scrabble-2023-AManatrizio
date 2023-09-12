@@ -21,8 +21,3 @@ class ScrabbleGame:
             #len(self.players)
             index = self.players.index(self.current_player) + 1
             self.current_player = self.players[index]
-
-
-
-
-
