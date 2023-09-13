@@ -1,9 +1,6 @@
 ## Author
 creator name: Antonella Manatrizio
 
-# scrabble-2023-AManatrizio
-scrabble-2023-AManatrizio created by GitHub Classroom
-
 # maintainability
 [![Maintainability](https://api.codeclimate.com/v1/badges/4042e4e3bba3e7b68e84/maintainability)](https://codeclimate.com/github/AManatrizio/clase-2020-08-30/maintainability)
 
