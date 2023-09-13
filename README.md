@@ -16,8 +16,5 @@ scrabble-2023-AManatrizio created by GitHub Classroom
 =======
 ## Author
 creator name: Antonella Manatrizio
-year: 2023
-
-
 
 >>>>>>> d8896d2 (agrego mi nombre en el read me)
