@@ -4,7 +4,7 @@ from game.cell import Cell
 from game.board import Board
 
 def main():
-    print("Bienvenido al juego de Scrabble")
+    print("Bienvenido!")
 
     # Solicitar la cantidad de jugadores
     player_count = int(input("Ingrese la cantidad de jugadores: "))
@@ -53,6 +53,9 @@ def main():
     print("\n¡Fin del juego!")
     for player in game.players:
         print(f"{player.name}: {player.score}")
+
+
+
 
 if __name__ == "__main__":
     main()
