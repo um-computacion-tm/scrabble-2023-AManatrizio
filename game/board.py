@@ -5,7 +5,7 @@ from game.models import Tile
 class Board:
     def __init__(self):
         self.grid = [
-            [ Cell(1, '') for _ in range(15) ]
+            [Cell(1, '') for _ in range(15)]
             for _ in range(15)
         ]
 
@@ -35,3 +35,11 @@ class Board:
         # niega el resultado de validate_word_inside_board
         return not self.validate_word_inside_board(word, location, orientation)
     
+   
+    def is_empty(self):
+        # Verifica si la tabla está vacía (sin letras en ella)
+        for row in self.grid:
+            for tile in row:
+                if tile is not None:
+                    return False
+        return True

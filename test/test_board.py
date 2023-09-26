@@ -38,11 +38,11 @@ class TestBoard(unittest.TestCase):
         assert word_is_valid == False
 
 
-
-
     # def test_board_is_empty(self):
     #         board = Board()
-    #         assert board.is_empty == True
+    #         assert board.is_empty() == True
+
+
 
     # def test_board_is_not_empty(self):
     #     board = Board()
