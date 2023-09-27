@@ -1,5 +1,9 @@
 Changelog - Scrabble Project on Python
 
+September 26, 2023:
+- Added a function attempt to check if the board is empty, but its not working yet it has 4 failures and 1 error. Also, added a menu to the main that was not committed in the previous update.
+- I have to ask how can i do to run the main and see a print of the board, type the number of players, etc.
+
 September 25, 2023:
 - Added the `WordValidator` class for word validation with the RAE dictionary.
     The `WordValidator` class has been introduced to facilitate word validation using the RAE (Real Academia Española) dictionary. It provides methods to connect to the Pyrae API and validate words against the RAE dictionary.
