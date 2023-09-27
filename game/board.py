@@ -36,10 +36,22 @@ class Board:
         return not self.validate_word_inside_board(word, location, orientation)
     
    
+
     def is_empty(self):
-        # Verifica si la tabla está vacía (sin letras en ella)
-        for row in self.grid:
-            for tile in row:
-                if tile is not None:
+        # Verifica si todos los elementos en el tablero son espacios en blanco
+        for row in self.board:
+            for cell in row:
+                if cell != ' ':
                     return False
         return True
+
+
+
+    def validate_word_place_board(self, word, location: tuple, orientation):
+        len_word = len(word)
+        row = location[0]
+        col = location[1]
+        if orientation == "H":
+            return len_word +  col <= 14
+        if orientation == "H":
+            return len_word +  col > 14
