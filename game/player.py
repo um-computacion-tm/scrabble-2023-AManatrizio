@@ -1,6 +1,3 @@
-# Importar las clases Tile y BagTiles desde el módulo game.models
-from game.models import Tile
-from game.models import BagTiles
 
 # Clase Player
 class Player:
@@ -17,7 +14,7 @@ class Player:
         if not self.bag_tiles:
             # Si el jugador no tiene una bolsa de fichas, no puede tener letras, así que devolvemos False
             return False
-
+        
         # Crear una lista de letras que están en la bolsa del jugador
         player_letters = [tile.letter for tile in self.bag_tiles.tiles]
         

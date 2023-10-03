@@ -8,6 +8,7 @@ class Board:
             [Cell(1, '') for _ in range(15)]
             for _ in range(15)
         ]
+        self.is_empty = True
 
     def validate_word_inside_board(self, word, location: tuple, orientation):
         # Extraer las coordenadas de la ubicación y la longitud de la palabra
@@ -44,7 +45,6 @@ class Board:
                 if cell != ' ':
                     return False
         return True
-
 
 
     def validate_word_place_board(self, word, location: tuple, orientation):
