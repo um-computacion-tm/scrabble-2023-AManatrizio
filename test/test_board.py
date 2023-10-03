@@ -1,6 +1,7 @@
 import unittest
 from game.board import Board
-from game.board import Board
+from game.models import Tile
+
 
 
 class TestBoard(unittest.TestCase):
@@ -16,15 +17,15 @@ class TestBoard(unittest.TestCase):
         )
 
     
-    # def test_word_inside_board(self):
-    #     board = Board()
-    #     word = "Facultad"
-    #     location = (5, 4)
-    #     orientation = "H"
+    def test_word_inside_board(self):
+        board = Board()
+        word = "Facultad"
+        location = (5, 4)
+        orientation = "H"
 
-    #     word_is_valid = board.validate_word_inside_board(word, location, orientation)
+        word_is_valid = board.validate_word_inside_board(word, location, orientation)
 
-    #     assert word_is_valid == True
+        assert word_is_valid == True
     
 
     def test_word_out_of_board(self):
@@ -38,11 +39,9 @@ class TestBoard(unittest.TestCase):
         assert word_is_valid == False
 
 
-
-
     # def test_board_is_empty(self):
     #         board = Board()
-    #         assert board.is_empty == True
+    #         assert board.is_empty() == True
 
     # def test_board_is_not_empty(self):
     #     board = Board()
