@@ -1,4 +1,13 @@
-Changelog - Scrabble Project on Python
+__Changelog - Scrabble Project on Python__
+
+
+October 3, 2023:
+- Added the 'has letter' function for checking if a player has certain letters in their "tile inventory".
+
+October 1, 2023:
+- Added tests for dictionary
+- Removed "word_validator" because I renamed it
+- Renamed the file 'word_validator' to 'dictionary' for easier identification.
 
 September 26, 2023:
 - Added a function attempt to check if the board is empty, but its not working yet it has 4 failures and 1 error. Also, added a menu to the main that was not committed in the previous update.
