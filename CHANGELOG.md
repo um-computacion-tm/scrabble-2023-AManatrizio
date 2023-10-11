@@ -1,5 +1,9 @@
 __Changelog - Scrabble Project on Python__
 
+October 11, 2023:
+- Added the method show_board, is used to display the current state of the game board.
+- I have been having trouble with writing test for validate_word function, Im using CodiumAI and ChatGPT for help but i still cant get it.
+- Im also having troubles with the main.
 
 October 3, 2023:
 - Added the 'has letter' function for checking if a player has certain letters in their "tile inventory".
