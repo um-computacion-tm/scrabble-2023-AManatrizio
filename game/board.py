@@ -4,8 +4,9 @@ from game.models import Tile
 
 class Board:
     def __init__(self):
+        # Crea un tablero de 15x15 inicializado con celdas vacías.
         self.grid = [
-            [Cell(1, '') for _ in range(15)]
+            [Cell() for _ in range(15)]
             for _ in range(15)
         ]
 
@@ -36,26 +37,6 @@ class Board:
         return not self.validate_word_inside_board(word, location, orientation)
     
    
-
-    def is_empty(self):
-        # Verifica si todos los elementos en el tablero son espacios en blanco
-        for row in self.board:
-            for cell in row:
-                if cell != ' ':
-                    return False
-        return True
-
-
-    def validate_word_place_board(self, word, location: tuple, orientation):
-        len_word = len(word)
-        row = location[0]
-        col = location[1]
-        if orientation == "H":
-            return len_word +  col <= 14
-        if orientation == "H":
-            return len_word +  col > 14
-        
-
 #metodo que muestra el tablero
     def show_board(board):
         print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
@@ -65,3 +46,10 @@ class Board:
                 '| ' +
                 ' '.join([repr(cell) for cell in row])
             )
+
+# metodo para verificar si la celda en la posición [7][7] está vacía.
+    def is_empty(self):
+        if self.grid[7][7].letter is None:
+            return True
+        else:
+            return False

@@ -7,8 +7,7 @@ class Cell:
         self.multiplier_active = multiplier_active
         self.letter = letter
 
-    # def is_empty(self) -> bool:
-    #     return self.letter is None
+
 
     def add_letter(self, letter: Tile):
         self.letter = letter
@@ -23,3 +22,6 @@ class Cell:
                 return self.letter.value
         else:
             return self.letter.value  # No aplicar el multiplicador cuando no está activo
+
+    def is_empty(self):
+        return self.letter is None

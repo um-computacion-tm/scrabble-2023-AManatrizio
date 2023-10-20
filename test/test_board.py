@@ -16,6 +16,16 @@ class TestBoard(unittest.TestCase):
             15,
         )
 
+    def test_board_is_empty(self):
+        board = Board()
+        assert board.is_empty() == True
+
+    def test_board_is_not_empty(self):
+        board = Board()
+        board.grid[7][7].add_letter(Tile('C', 1))
+        assert board.is_empty() == False  # Corregido: llamada a board.is_empty()
+
+        
     
     def test_word_inside_board(self):
         board = Board()
@@ -39,9 +49,33 @@ class TestBoard(unittest.TestCase):
         assert word_is_valid == False
 
 
-    # def test_board_is_empty(self):
-    #         board = Board()
-    #         assert board.is_empty() == True
+    # def test_place_word_cross_vertical_fine(self):
+    #     fill_with = (
+    #         '               ' # 0
+    #         '               ' # 1
+    #         '               ' # 2
+    #         '               ' # 3
+    #         '               ' # 4
+    #         '               ' # 5
+    #         '               ' # 6
+    #         '       CASA    ' # 7
+    #         '        S      ' # 8
+    #         '        A      ' # 9
+    #         '        D      ' # 0
+    #         '        O      ' # 1
+    #         '               ' # 2
+    #         '               ' # 3
+    #         '               ' # 4
+    #     )   #012345678901234
+    #     board = Board(fill_with)
+    #     # show_board(board)
+    #     word = "FACULTAD"
+    #     location = (6, 11)
+    #     orientation = "V"
+    #     word_is_valid = board.validate_word_place_board(word, location, orientation)
+    #     assert word_is_valid == True
+
+
 
     # def test_board_is_not_empty(self):
     #     board = Board()
