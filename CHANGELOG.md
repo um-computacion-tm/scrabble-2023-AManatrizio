@@ -1,5 +1,10 @@
 __Changelog - Scrabble Project on Python__
 
+October 20, 2023:
+- Modifided the is_empty method to properly verify if the cell at position [7][7] is empty, ensuring that it returns True if the cell is empty and False if it contains a letter.
+- Updated the __init__ method to initialize the board with empty cells by default. This ensures that the board starts in an empty state.
+
+
 October 11, 2023:
 - Added the method show_board, is used to display the current state of the game board.
 - I have been having trouble with writing test for validate_word function, Im using CodiumAI and ChatGPT for help but i still cant get it.
