@@ -17,27 +17,32 @@ class TestBoard(unittest.TestCase):
         )
 
 
+
+
+
     def test_initialize_multipliers(self):
         test_board = Board()
         test_board.initialize_multipliers()
+        test_board.show_board()
         
         # Casillas de Double Letter
-        self.assertEqual(test_board.grid[4][1].multiplier, 2)
-        self.assertEqual(test_board.grid[12][1].multiplier, 2)
+        self.assertEqual(test_board.grid[0][3].multiplier, 2)
+        self.assertEqual(test_board.grid[0][11].multiplier, 2)
+        
+        self.assertEqual(test_board.grid[3][0].multiplier, 2)
         
         # Casillas de Triple Letter
-        self.assertEqual(test_board.grid[6][2].multiplier, 3)
-        self.assertEqual(test_board.grid[10][2].multiplier, 3)
+        self.assertEqual(test_board.grid[1][5].multiplier, 3)
+        self.assertEqual(test_board.grid[1][9].multiplier, 3)
         
         # Casillas de Double Word
         self.assertEqual(test_board.grid[1][1].multiplier, 2)
-        self.assertEqual(test_board.grid[8][1].multiplier, 2)
+        self.assertEqual(test_board.grid[2][2].multiplier, 2)
+        self.assertEqual(test_board.grid[3][3].multiplier, 2)
         
         # Casillas de Triple Word
         self.assertEqual(test_board.grid[0][0].multiplier, 3)
-        self.assertEqual(test_board.grid[7][0].multiplier, 3)
-
-
+        self.assertEqual(test_board.grid[0][7].multiplier, 3)
 
 
 
