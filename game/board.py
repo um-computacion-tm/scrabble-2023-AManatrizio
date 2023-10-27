@@ -12,54 +12,34 @@ class Board:
         
 
 
-    # def initialize_multipliers(self):
-    #     # Definimos las coordenadas de las casillas con diferentes tipos de multiplicadores
-    #     double_letter_cells = [(4, 1), (12, 1), (1, 4), (8, 4), (15, 4), (3, 7), (7, 7), (9, 7), (13, 7), (4, 10), (12, 10), (0, 12), (7, 12), (14, 12), (3, 15), (11, 15)]
-    #     triple_letter_cells = [(6, 2), (10, 2), (2, 6), (6, 6), (10, 6), (14, 6), (1, 8), (5, 8), (9, 8), (13, 8), (2, 10), (6, 10), (10, 10), (14, 10), (6, 14), (10, 14)]
-    #     double_word_cells = [(1, 1), (8, 1), (15, 1), (2, 2), (14, 2), (3, 3), (13, 3), (4, 4), (12, 4), (7, 7), (11, 7), (4, 12), (12, 12), (1, 15), (8, 15), (15, 15)]
-    #     triple_word_cells = [(0, 0), (7, 0), (14, 0), (0, 7), (14, 7), (0, 14), (7, 14), (14, 14)]
-
-    #     # Iteramos a través de las filas (15) y columnas (15) del tablero
-    #     for row in range(15):
-    #         for col in range(15):
-    #             # Verificamos el tipo de multiplicador para la casilla en esta fila y columna
-    #             if (row, col) in double_letter_cells:
-    #                 # Si las coordenadas están en double_letter_cells, establecemos el multiplicador en 2 y el tipo en 'Double Letter'
-    #                 self.grid[row][col].multiplier = 2
-    #                 self.grid[row][col].multiplier_type = 'Double Letter'
-    #             elif (row, col) in triple_letter_cells:
-    #                 # Si las coordenadas están en triple_letter_cells, establecemos el multiplicador en 3 y el tipo en 'Triple Letter'
-    #                 self.grid[row][col].multiplier = 3
-    #                 self.grid[row][col].multiplier_type = 'Triple Letter'
-    #             elif (row, col) in double_word_cells:
-    #                 # Si las coordenadas están en double_word_cells, establecemos el multiplicador en 2 y el tipo en 'Double Word'
-    #                 self.grid[row][col].multiplier = 2
-    #                 self.grid[row][col].multiplier_type = 'Double Word'
-    #             elif (row, col) in triple_word_cells:
-    #                 # Si las coordenadas están en triple_word_cells, establecemos el multiplicador en 3 y el tipo en 'Triple Word'
-    #                 self.grid[row][col].multiplier = 3
-    #                 self.grid[row][col].multiplier_type = 'Triple Word'
-
-
     def initialize_multipliers(self):
         # diccionario que relaciona los tipos de celdas con las coordenadas correspondientes
         cell_types = {
-            'Double Letter': [(4, 1), (12, 1), (1, 4), (8, 4), (14, 4), (3, 7), (7, 7), (9, 7), (13, 7), (4, 10), (12, 10), (0, 12), (7, 12), (14, 12), (3, 15), (11, 15)],
-            'Triple Letter': [(6, 2), (10, 2), (2, 6), (6, 6), (10, 6), (14, 6), (1, 8), (5, 8), (9, 8), (13, 8), (2, 10), (6, 10), (10, 10), (14, 10), (6, 14), (10, 14)],
-            'Double Word': [(1, 1), (8, 1), (15, 1), (2, 2), (14, 2), (3, 3), (13, 3), (4, 4), (12, 4), (7, 7), (11, 7), (4, 12), (12, 12), (1, 15), (8, 15), (15, 15)],
-            'Triple Word': [(0, 0), (7, 0), (14, 0), (0, 7), (14, 7), (0, 14), (7, 14), (14, 14)]
+            'Double Letter': [(0, 3), (0, 11), (3, 0), (2, 6), (2, 8), (3, 7), (3, 14), (6, 2), (6, 6), (6, 8), (6, 12), (7, 3), (7, 11), (8, 2), (8, 6), (8,8), (8, 12), (11, 0), (11, 7), (11, 14), (12, 6), (12, 8), (14, 3), (14, 11)],
+            'Triple Letter': [(1, 5), (1, 9), (5, 1), (5, 5), (5, 9), (5, 13), (9, 1), (9, 5), (9, 9), (9, 13), (13, 5), (13, 9)],
+            'Double Word': [(1, 1), (2, 2), (3, 3), (4, 4), (10, 10), (11, 11), (12, 12), (13, 13), (14, 14), (1, 13), (2, 12), (3, 11), (4, 10), (10, 4), (11, 3), (12, 2), (13, 1)],
+            'Triple Word': [(0, 0), (7, 0), (14, 0), (0, 7), (0, 14), (7, 14), (14, 14), (14, 7)]
         }
 
         # Iteramos a través de las filas (15) y columnas (15) del tablero
         for row in range(15):
             for col in range(15):
+                # Inicializa los valores por defecto para el multiplicador de celda
+                multiplier = 1
+                multiplier_type = None
+
                 # Iteramos a través del diccionario de tipos de celdas y sus coordenadas correspondientes
                 for cell_type, coordinates in cell_types.items():
                     if (row, col) in coordinates:
-                        # Asignamos el multiplicador basado en el tipo de celda.
-                        self.grid[row][col].multiplier = 2 if 'Double' in cell_type else 3
-                        self.grid[row][col].multiplier_type = cell_type
-                        break
+                        # Asignamos el tipo y valor del multiplicador basado en el tipo de celda.
+                        multiplier_type = 'word' if 'Word' in cell_type else 'letter'
+                        multiplier = 3 if 'Triple' in cell_type else 2
+
+                # Asignamos el multiplicador basado en el tipo de celda.
+                self.grid[row][col].multiplier = multiplier
+                self.grid[row][col].multiplier_type = multiplier_type
+
+
 
 
 
