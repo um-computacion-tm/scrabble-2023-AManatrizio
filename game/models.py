@@ -61,3 +61,7 @@ class BagTiles:
 
     def put(self, tiles):
         self.tiles.extend(tiles)
+    
+    def is_empty(self):
+        # Verificar si la bolsa de fichas está vacía (se agotaron las fichas)
+        return not self.tiles

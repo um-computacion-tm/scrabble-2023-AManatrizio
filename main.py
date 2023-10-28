@@ -4,9 +4,13 @@ from game.cell import Cell
 from game.board import Board
 from game.player import Player
 
+def start_game(players_count):
+    # Inicializa el juego
+    scrabble_game = ScrabbleGame(players_count=players_count)
+    return scrabble_game
+
 
 def main():
-
     print("Bienvenido!")
     while True:
         try:
@@ -15,26 +19,52 @@ def main():
                 raise ValueError
             break
         except ValueError:
-            print("Valor invalido")
-    scrabble_game = ScrabbleGame(players_count=players_count)
-    print("Cantidad de jugadores: ",len(scrabble_game.players))
-    scrabble_game.next_turn()
-    #TODO while playing: loop por turno de jugador hasta que termine el juego
-    print(f"Turno del jugador {scrabble_game.current_player}")
-    word = input("Ingrese palabra: ")
-    location_x = input("Ingrese posicion X: ")
-    location_y = input("Ingrese posicion Y: ")
-    location = (location_x, location_y)
-    orientation = input("Ingrese orientacion (V/H)")
-    scrabble_game.validate_word(word, location, orientation)
+            print("Valor inválido")
+    
+    scrabble_game = start_game(players_count)  # Inicia el juego
+    board = Board()  # Crea una instancia de la clase Board
+    
+    # Llamamos a la función para distribuir fichas iniciales solo una vez al inicio del juego
+    for player in scrabble_game.players:
+        scrabble_game.draw_initial_tiles(player)
+
+    board.initialize_multipliers()  # Establece los multiplicadores del tablero una vez
+
+    while not scrabble_game.is_game_over():
+        
+        board = Board()  # Crea una instancia de la clase Board
+        board.initialize_multipliers() 
+        board.show_board()  # Llama a la función show_board en la instancia de la clase
+
+        # Mostrar las letras en la mano del jugador
+        player_tiles = scrabble_game.current_player.tiles
+        print(f"Letras en tu mano (Jugador {scrabble_game.current_player.player_number}): {', '.join([tile.letter for tile in player_tiles])}")
+
+        # Realiza las acciones del jugador (ingresar palabra, pasar, cambiar fichas, etc.)
+        action = input("¿Qué deseas hacer? (Ingresar palabra (a) / Pasar (b) / Cambiar fichas (c)): ")
+
+        if action == 'a':
+            # Aquí deberías tener la lógica para ingresar una palabra válida.
+            word = input("Ingrese palabra: ")
+            location_x = input("Ingrese posicion X: ")
+            location_y = input("Ingrese posicion Y: ")
+            orientation = input("Ingrese orientación (V/H)")
+            scrabble_game.validate_word(word, (location_x, location_y), orientation)
+
+        elif action == 'b':
+            scrabble_game.next_turn()
+
+        elif action == 'c':
+            # la lógica para cambiar fichas
+            pass
+
+        scrabble_game.next_turn()  # Avanza al siguiente jugador
+            
 
 
 
 if __name__ == '__main__':
     main()
-
-
-
 
 
 

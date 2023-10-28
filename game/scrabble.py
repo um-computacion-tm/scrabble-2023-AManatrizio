@@ -1,10 +1,10 @@
-from game import player
 from game.board import Board
 from game.player import Player
 from game.models import BagTiles
-from game.scrabble_logic import ScrabbleLogic
+from game.models import Tile
 from game.exceptions import InvalidWordException, InvalidPlaceWordException
 from game.dictionary import validate_word
+from game.scrabble_logic import ScrabbleLogic
 
 
 class ScrabbleGame:
@@ -15,13 +15,19 @@ class ScrabbleGame:
         self.board = Board()
         # Se crea una bolsa de fichas utilizando la clase BagTiles.
         self.bag_tiles = BagTiles()
-        # Se crea una lista de jugadores (players) utilizando una comprensión de lista.
-        # La comprensión de lista crea jugadores numerados del 1 al 'players_count'.
+        # Se crea una lista de jugadores numerados del 1 al 'players_count'.
         self.players = [Player(i) for i in range(1, players_count + 1)]
         # Se establece al jugador actual (current_player) como el primer jugador en la lista de jugadores.
         # Esto asegura que el juego comience con el primer jugador.
         self.current_player = self.players[0]
         
+
+    def draw_initial_tiles(self, player):
+        # Cada jugador debe tener un conjunto inicial de fichas al comienzo del juego
+        initial_tiles = self.bag_tiles.take(7)
+        for tile in initial_tiles:
+            player.tiles.append(tile)
+
 
 
     def next_turn(self):
@@ -34,12 +40,19 @@ class ScrabbleGame:
         self.current_player = self.players[next_player_index]
 
 
+
+    def is_game_over(self):
+        # Condición 1: La bolsa de fichas está vacía
+        if self.bag_tiles.is_empty():
+            return True
+
+
+
     # def validate_word(self, word, location, orientation):
     #     '''
     #     1- Validar que usuario tiene esas letras
     #     2- Validar que la palabra entra en el tablero
     #     '''
-        
     
     def validate_word(self, word, location, orientation):
         # Comprobar si la palabra no existe en el diccionario
@@ -72,25 +85,23 @@ class ScrabbleGame:
 
     # Método para colocar una palabra en el tablero.
     def place_word(self, word, location, orientation):
-        
         # 1. Validar la palabra, su ubicación y orientación.
         self.validate_word(word, location, orientation)
 
         # 2. Obtener la palabra y las celdas afectadas en el tablero.
         placed_word, affected_cells = self.board.place_word(word, location, orientation)
 
-        # 3. Calcular el valor de la palabra y aplicar los multiplicadores.
-        word_value = ScrabbleLogic.calculate_word_value(placed_word)
-        for cell in affected_cells:
-            word_value += ScrabbleLogic.apply_cell_multipliers(cell, word_value)
+        # 3. Calcular el valor de la palabra.
+        word_value = self.calculate_word_value(placed_word)
+
         # 4. Agregar el valor de la palabra al puntaje del jugador actual.
         self.current_player.add_score(word_value)
-        # 5. Quitar las fichas utilizadas de la mano del jugador y reponerlas de la bolsa de fichas.
-        self.current_player.remove_tiles(word)
-        self.current_player.add_tiles(self.bag_tiles.take(len(word)))
-        # 6. Actualizar el tablero con la palabra colocada.
+
+        # 5. Actualizar el tablero con la palabra colocada.
         self.board.update_board(placed_word, affected_cells)
-        # 7. Cambiar al siguiente jugador para el próximo turno.
+
+        # 6. Cambiar al siguiente jugador para el próximo turno.
         self.next_turn()
-        # 8. Devolver el valor de la palabra colocada.
-        return word_value    
+
+        # 7. Devolver el valor de la palabra colocada.
+        return word_value
