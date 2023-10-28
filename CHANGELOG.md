@@ -1,5 +1,22 @@
 __Changelog - Scrabble Project on Python__
 
+
+October 27, 2023:
+- Added "draw_initial_tiles" function to distribute 7 tiles to each player.
+- Implemented "is_game_over" function to check if the game is finished.
+- Added the option for players to enter words, pass their turn, or exchange tiles. Work in progress on the tile exchange function.
+
+October 26, 2023:
+- Updated test board.
+- Updated board coordinates; I changed them because the ones in Slack didn't work with my board.
+
+October 25, 2023:
+- Added the __repr__ function to help visualize the cells on the board.
+- Moved the main function from the game folder to the root of the scrabble folder. Now I can run the main, view the board, and playtest the game.
+
+October 24, 2023:
+- Made changes to the initialize_multipliers function. I encountered issues with the index going out of range.
+
 October 23, 2023:
 - Added tests to verify the functionality of the initialize_multipliers function.
     Tests include:
