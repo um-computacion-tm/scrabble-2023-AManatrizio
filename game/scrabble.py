@@ -85,7 +85,7 @@ class ScrabbleGame:
                 try:
                     tile = int(input("Seleccione el número de la ficha que quiere cambiar: "))
                     if 0 <= tile < len(tiles_player):
-                        tiles_to_change.append(tiles_player.pop(tile))
+                        tiles_to_change.append(tiles_player[tile])  # No se eliminan las fichas aquí
                         break
                     else:
                         print("Número de ficha inválido.")
@@ -97,53 +97,34 @@ class ScrabbleGame:
     def change_player_tiles(self, current_player):
         til = self.select_number_of_tiles_to_change()
         tiles_to_change = self.select_tiles_to_change(current_player, til)
-        exchanged_tiles, new_tiles = self.exchange_tiles(current_player, tiles_to_change)
+        exchanged_tiles, new_tiles = self.perform_tile_exchange(current_player, tiles_to_change)
         return exchanged_tiles, new_tiles
 
-    def exchange_tiles(self, player, letters_to_change):
-        if not self.bag_tiles:
-            raise ValueError("La bolsa de fichas no está disponible.")
-        
-        tiles_to_change, new_tiles = self.perform_tile_exchange(player, letters_to_change)
-        
-        return tiles_to_change, new_tiles
-    
-    def take_tiles_from_bag(self, count):
-        if not self.bag_tiles:
-            raise ValueError("La bolsa de fichas no está disponible.")
-        
-        new_tiles = self.bag_tiles.take(count)
-        return new_tiles
-
     def perform_tile_exchange(self, player, letters_to_change):
-        # Convierte letras a fichas
-        tiles_to_change = [tile for tile in player.tiles if tile.letter in letters_to_change]
-        
-        # Crea un diccionario que mapea letras a la cantidad de fichas del jugador
-        player_letter_counts = {}
-        for tile in player.tiles:
-            if tile.letter not in player_letter_counts:
-                player_letter_counts[tile.letter] = 1
-            else:
-                player_letter_counts[tile.letter] += 1
-        
-        # Verifica si el jugador tiene suficientes fichas para cambiar
-        for letter, count in player_letter_counts.items():
-            if letters_to_change.count(letter) > count:
-                raise ValueError(f"No tienes suficientes fichas de la letra '{letter}' para cambiar.")
-        
-        # Remueve las fichas de la mano del jugador
-        for tile in tiles_to_change:
-            player.tiles.remove(tile)
-        
-        # Devuelve las fichas cambiadas a la bolsa
-        self.bag_tiles.put(tiles_to_change)
-        
-        # Toma las fichas nuevas de la bolsa
-        new_tiles = self.bag_tiles.take(len(tiles_to_change))
-        
-        return tiles_to_change, new_tiles
+        # Llama a la función para mostrar la cantidad de fichas en la bolsa
+        remaining_tiles_in_bag = self.show_remaining_tiles_in_bag()
 
+        # Verifica si quedan suficientes fichas en la bolsa para hacer el cambio
+        if remaining_tiles_in_bag < len(letters_to_change):
+            raise ValueError("No hay suficientes fichas en la bolsa para cambiar.")
+
+        # Remueve las fichas de la mano del jugador
+        for tile in letters_to_change:
+            player.tiles.remove(tile)
+
+        # Devuelve las fichas cambiadas a la bolsa
+        self.bag_tiles.put(letters_to_change)
+
+        # Toma las fichas nuevas de la bolsa
+        new_tiles = self.bag_tiles.take(len(letters_to_change))
+
+        # Agrega las fichas nuevas al jugador
+        player.tiles.extend(new_tiles)
+
+        return letters_to_change, new_tiles
+
+
+    
 
     # Los jugadores pueden usar esta función para expresar su deseo de finalizar el juego.
     # Se llama a esta función cuando un jugador decide terminar la partida.
