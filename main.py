@@ -3,15 +3,21 @@ from game.models import Tile, BagTiles
 from game.cell import Cell
 from game.board import Board
 from game.player import Player
+import random
 
 def start_game(players_count):
     # Inicializa el juego
     scrabble_game = ScrabbleGame(players_count=players_count)
+    # Inicializa la bolsa de fichas
+    bag_tiles = BagTiles()
+    scrabble_game.bag_tiles = bag_tiles  # Asigna la bolsa de fichas al juego
     return scrabble_game
 
 
 def main():
     print("Bienvenido!")
+    # Inicializa la bolsa de fichas
+    bag_tiles = BagTiles()
     while True:
         try:
             players_count = int(input("Ingrese cantidad de jugadores: "))
@@ -41,8 +47,7 @@ def main():
         print(f"Letras en tu mano (Jugador {scrabble_game.current_player.player_number}): {', '.join([tile.letter for tile in player_tiles])}")
 
         # Realiza las acciones del jugador (ingresar palabra, pasar, cambiar fichas, etc.)
-        action = input("¿Qué deseas hacer? (Ingresar palabra (a) / Pasar (b) / Cambiar fichas (c)): ")
-
+        action = input("¿Qué deseas hacer? (Ingresar palabra (a) / Pasar (b) / Cambiar fichas (c) / Terminar (t)): ")
         if action == 'a':
             # Aquí deberías tener la lógica para ingresar una palabra válida.
             word = input("Ingrese palabra: ")
@@ -51,15 +56,24 @@ def main():
             orientation = input("Ingrese orientación (V/H)")
             scrabble_game.validate_word(word, (location_x, location_y), orientation)
 
+
         elif action == 'b':
             scrabble_game.next_turn()
 
         elif action == 'c':
-            # la lógica para cambiar fichas
-            pass
+            exchanged_tiles, new_tiles = scrabble_game.change_player_tiles(scrabble_game.current_player)
+            if exchanged_tiles:
+                print(f"Fichas cambiadas: {', '.join([tile.letter for tile in exchanged_tiles])}")
+                print(f"Nuevas fichas: {', '.join([tile.letter for tile in new_tiles])}")
+            else:
+                print("No se pudieron cambiar las fichas. Verifica que tienes suficientes letras.")
 
-        scrabble_game.next_turn()  # Avanza al siguiente jugador
+        #scrabble_game.next_turn()  # Avanza al siguiente jugador
             
+
+# Una vez que el bucle de juego haya terminado, se muestra al ganador.
+    winning_player = scrabble_game.get_winner()
+    print(f"¡El ganador es el Jugador {winning_player.player_number} con un puntaje de {winning_player.score}!")
 
 
 
@@ -171,4 +185,3 @@ if __name__ == '__main__':
 #         row_str = f"{i + 1:2} | " + " | ".join("   " for _ in range(board_size)) + " |"
 #         print(row_str)
 #         print(separator)
-
