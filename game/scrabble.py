@@ -3,7 +3,15 @@ from game.player import Player
 from game.models import BagTiles
 from game.models import Tile
 from game.dictionary import validate_word
+from game.dictionary import DictionaryConnectionError
+from game.dictionary_loader import load_local_dictionary
 from game.scrabble_logic import ScrabbleLogic
+
+# Ruta al archivo de tu diccionario local
+local_dictionary_file = 'dictionary.txt'
+
+# Carga el diccionario local
+local_dictionary = load_local_dictionary(local_dictionary_file)
 
 class InvalidWordException(Exception):
     def __init__(self, message="Palabra no válida"):
@@ -39,6 +47,7 @@ class ScrabbleGame:
             player.tiles.append(tile)
 
 
+    #manejo de turnos
     def next_turn(self):
         # Obtenemos el índice del jugador actual en la lista de jugadores (players).
         current_player_index = self.players.index(self.current_player)
@@ -51,29 +60,6 @@ class ScrabbleGame:
     # Muestra la cantidad de fichas restantes en la bolsa de fichas
     def show_remaining_tiles_in_bag(self):
         return len(self.bag_tiles.tiles)
-
-
-
-    # def exchange_tiles(self, player, letters_to_change):
-    #     player_tiles = player.tiles
-    #     num_to_change = len(letters_to_change)
-
-    #     if num_to_change > len(player_tiles):
-    #         print("No tienes suficientes fichas para cambiar.")
-    #         return
-
-    #     new_tiles = self.exchange_tiles(player, letters_to_change)
-
-    #     # Intercambiar las fichas
-    #     for letter in letters_to_change:
-    #         player_tiles.remove(letter)
-
-    #     for new_tile in new_tiles:
-    #         player_tiles.append(new_tile)
-
-    #     print("Fichas cambiadas exitosamente.")\
-
-
 
 
     @staticmethod
@@ -159,15 +145,9 @@ class ScrabbleGame:
         return tiles_to_change, new_tiles
 
 
-
-
-
-
-
-
+    # Los jugadores pueden usar esta función para expresar su deseo de finalizar el juego.
+    # Se llama a esta función cuando un jugador decide terminar la partida.
     def request_end_game(self, player):
-            # Los jugadores pueden usar esta función para expresar su deseo de finalizar el juego.
-            # Debes llamar a esta función cuando un jugador decida terminar la partida.
             player_index = self.players.index(player)
             self.players_want_to_end_game[player_index] = True
 
@@ -176,7 +156,7 @@ class ScrabbleGame:
         if self.bag_tiles.is_empty():
             return True
         
-        # Condición 3: Verificar si algún jugador desea terminar el juego
+        # Condición 2: Verificar si algún jugador desea terminar el juego
         if any(self.players_want_to_end_game):
             return True
 
@@ -189,10 +169,21 @@ class ScrabbleGame:
     #     '''
     
     def validate_word(self, word, location, orientation):
-        # Comprobar si la palabra no existe en el diccionario
-        if not validate_word(word):
-            # Si la palabra no existe, lanzar una excepción InvalidWordException
-            raise InvalidWordException("Su palabra no existe en el diccionario")
+        # Verificar si la palabra no existe en el diccionario local
+        if word.lower() not in local_dictionary:
+            # Si la palabra no existe en el diccionario local, lanzar una excepción InvalidWordException
+            raise InvalidWordException("Su palabra no existe en el diccionario local")
+
+        # Comprobar si la palabra no existe en el diccionario en línea
+        try:
+            if not validate_word(word):
+                # Si la palabra no existe en el diccionario en línea, lanzar una excepción InvalidWordException
+                raise InvalidWordException("Su palabra no existe en el diccionario en línea")
+        except DictionaryConnectionError as e:
+            # Manejar la excepción DictionaryConnectionError
+            # Por ejemplo, aquí puedes buscar en el diccionario local como lo mencionaste.
+            if word.lower() not in local_dictionary:
+                raise InvalidWordException("Su palabra no existe en el diccionario local")
 
         # Comprobar si la palabra excede los límites del tablero
         if not self.board.validate_word_inside_board(word, location, orientation):
@@ -202,7 +193,7 @@ class ScrabbleGame:
         # Comprobar si la palabra está mal puesta en el tablero
         if not self.board.validate_word_place_board(word, location, orientation):
             # Si la palabra está mal puesta, lanzar una excepción InvalidPlaceWordException
-            raise InvalidPlaceWordException("Su palabra esta mal puesta en el tablero")
+            raise InvalidPlaceWordException("Su palabra está mal puesta en el tablero")
 
 
     def get_words():
