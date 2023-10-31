@@ -2,10 +2,18 @@ from game.board import Board
 from game.player import Player
 from game.models import BagTiles
 from game.models import Tile
-from game.exceptions import InvalidWordException, InvalidPlaceWordException
 from game.dictionary import validate_word
 from game.scrabble_logic import ScrabbleLogic
 
+class InvalidWordException(Exception):
+    def __init__(self, message="Palabra no válida"):
+        self.message = message
+        super().__init__(self.message)
+
+class InvalidPlaceWordException(Exception):
+    def __init__(self, message="Ubicación de palabra no válida"):
+        self.message = message
+        super().__init__(self.message)
 
 class ScrabbleGame:
 
