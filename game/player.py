@@ -2,11 +2,16 @@
 # Clase Player
 class Player:
     # Constructor de la clase Player
-    def __init__(self, bag_tiles=None):
+    def __init__(self, player_number, bag_tiles=None):
         # Inicializar una lista de fichas vacía para el jugador
         self.tiles = []
         # Asignar la instancia de BagTiles que se pasa como argumento al jugador
         self.bag_tiles = bag_tiles
+        # Inicializa el puntaje del jugador en 0
+        self.score = 0 
+        # Almacena el número de jugador
+        self.player_number = player_number
+
 
     # Método has_letters que verifica si el jugador tiene ciertas letras
     def has_letters(self, tiles):
@@ -27,3 +32,8 @@ class Player:
         
         # Si todas las letras de las fichas están en la bolsa del jugador, devolvemos True
         return True
+    
+
+    # Método para agregar puntos al puntaje del jugador
+    def add_score(self, points):
+            self.score += points

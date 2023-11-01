@@ -1,6 +1,51 @@
 __Changelog - Scrabble Project on Python__
 
 
+October 27, 2023:
+- Added "draw_initial_tiles" function to distribute 7 tiles to each player.
+- Implemented "is_game_over" function to check if the game is finished.
+- Added the option for players to enter words, pass their turn, or exchange tiles. Work in progress on the tile exchange function.
+
+October 26, 2023:
+- Updated test board.
+- Updated board coordinates; I changed them because the ones in Slack didn't work with my board.
+
+October 25, 2023:
+- Added the __repr__ function to help visualize the cells on the board.
+- Moved the main function from the game folder to the root of the scrabble folder. Now I can run the main, view the board, and playtest the game.
+
+October 24, 2023:
+- Made changes to the initialize_multipliers function. I encountered issues with the index going out of range.
+
+October 23, 2023:
+- Added tests to verify the functionality of the initialize_multipliers function.
+    Tests include:
+    Verifying correct assignment of double letter cell multipliers.
+    Ensuring triple letter cell multipliers are set correctly.
+    Validating the assignment of double word cell multipliers.
+    Testing the proper assignment of triple word cell multipliers.
+
+October 22, 2023:
+- Added the function initialize_multipliers. This function assigns multipliers to board cells based on predefined coordinates and cell types. This enhancement helps ensure that the board's multipliers are set accurately.
+
+October 21, 2023:
+- Updated the is_empty function and the __init__ method in the Board class to initialize the board without any tiles.
+- The is_empty function has been enhanced to accurately check whether a board cell is empty, ensuring precise gameplay logic. The __init__ method for the Board class now initializes the game board with empty cells, improving the clarity and correctness of the game's initial state.
+
+
+October 20, 2023:
+- Modifided the is_empty method to properly verify if the cell at position [7][7] is empty, ensuring that it returns True if the cell is empty and False if it contains a letter.
+- Updated the __init__ method to initialize the board with empty cells by default. This ensures that the board starts in an empty state.
+- Added a new method for validating word placement on the game board.
+The new validate_word_place_board method enhances the functionality for verifying word placements, contributing to more accurate gameplay logic.
+- However, it's important to note that there are issues with the unit tests for this functionality, specifically in the test_place_word_empty_board_vertical_wrong and test_place_word_empty_board_horizontal_wrong test cases. Im trying to figure out the problem with it.
+
+
+October 11, 2023:
+- Added the method show_board, is used to display the current state of the game board.
+- I have been having trouble with writing test for validate_word function, Im using CodiumAI and ChatGPT for help but i still cant get it.
+- Im also having troubles with the main.
+
 October 3, 2023:
 - Added the 'has letter' function for checking if a player has certain letters in their "tile inventory".
 

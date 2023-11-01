@@ -7,8 +7,14 @@ class Cell:
         self.multiplier_active = multiplier_active
         self.letter = letter
 
-    # def is_empty(self) -> bool:
-    #     return self.letter is None
+    def __repr__(self):
+        if self.letter:
+            return repr(self.letter)
+        if self.multiplier > 1:
+            return f'{"W" if self.multiplier_type == "word" else "L"}x{self.multiplier}'
+        else:
+            return '   '
+
 
     def add_letter(self, letter: Tile):
         self.letter = letter
@@ -23,3 +29,7 @@ class Cell:
                 return self.letter.value
         else:
             return self.letter.value  # No aplicar el multiplicador cuando no está activo
+
+    def is_empty(self):
+        return self.letter is None
+    
