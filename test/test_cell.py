@@ -49,7 +49,23 @@ class TestCell(unittest.TestCase):
             3,
         )
 
+    def test_repr_with_letter(self):
+        cell = Cell('A', 1, 'letter')
+        self.assertEqual(repr(cell), "'A'")
 
+    def test_repr_with_word_multiplier(self):
+        cell = Cell(None, 2, 'word')
+        self.assertEqual(repr(cell), "Wx2")
 
+    def test_repr_with_letter_multiplier(self):
+        cell = Cell(None, 3, 'letter')
+        self.assertEqual(repr(cell), "Lx3")
+
+    def test_repr_with_no_letter_and_no_multiplier(self):
+        cell = Cell(None, 1, 'none')
+        self.assertEqual(repr(cell), '   ')
+
+    
+    
 if __name__ == '__main__':
     unittest.main()

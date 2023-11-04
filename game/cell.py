@@ -17,7 +17,11 @@ class Cell:
 
 
     def add_letter(self, letter: Tile):
-        self.letter = letter
+        if self.letter is None:
+            self.letter = letter
+            return True
+        else:
+            return False
 
     def calculate_value(self):
         if self.letter is None:
@@ -32,4 +36,4 @@ class Cell:
 
     def is_empty(self):
         return self.letter is None
-    
+        

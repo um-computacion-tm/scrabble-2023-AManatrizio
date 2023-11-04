@@ -7,7 +7,7 @@ from game.dictionary import DictionaryConnectionError
 from game.dictionary_loader import load_local_dictionary
 from game.scrabble_logic import ScrabbleLogic
 
-# Ruta al archivo de tu diccionario local
+# Ruta al archivo de diccionario local
 local_dictionary_file = 'dictionary.txt'
 
 # Carga el diccionario local
@@ -19,7 +19,7 @@ class InvalidWordException(Exception):
         super().__init__(self.message)
 
 class InvalidPlaceWordException(Exception):
-    def __init__(self, message="Ubicación de palabra no válida"):
+    def __init__(self, message= "Ubicación de palabra no válida"):
         self.message = message
         super().__init__(self.message)
 
@@ -36,7 +36,6 @@ class ScrabbleGame:
         # Se establece al jugador actual (current_player) como el primer jugador en la lista de jugadores.
         # Esto asegura que el juego comience con el primer jugador.
         self.current_player = self.players[0]
-
         self.players_want_to_end_game = [False] * players_count
         
 
@@ -81,7 +80,7 @@ class ScrabbleGame:
 
         for _ in range(til):
             while True:
-                print(f"Letras en tu mano (Jugador {current_player.player_number}): {', '.join([tile.letter for tile in tiles_player])}")
+                #print(f"Letras en tu mano (Jugador {current_player.player_number}): {', '.join([tile.letter for tile in tiles_player])}")
                 try:
                     tile = int(input("Seleccione el número de la ficha que quiere cambiar: "))
                     if 0 <= tile < len(tiles_player):
@@ -124,13 +123,11 @@ class ScrabbleGame:
         return letters_to_change, new_tiles
 
 
-    
-
-    # Los jugadores pueden usar esta función para expresar su deseo de finalizar el juego.
     # Se llama a esta función cuando un jugador decide terminar la partida.
     def request_end_game(self, player):
             player_index = self.players.index(player)
             self.players_want_to_end_game[player_index] = True
+
 
     def is_game_over(self):
         # Condición 1: La bolsa de fichas está vacía
@@ -160,6 +157,7 @@ class ScrabbleGame:
             if not validate_word(word):
                 # Si la palabra no existe en el diccionario en línea, lanzar una excepción InvalidWordException
                 raise InvalidWordException("Su palabra no existe en el diccionario en línea")
+            
         except DictionaryConnectionError as e:
             # Manejar la excepción DictionaryConnectionError
             # Por ejemplo, aquí puedes buscar en el diccionario local como lo mencionaste.
@@ -177,37 +175,46 @@ class ScrabbleGame:
             raise InvalidPlaceWordException("Su palabra está mal puesta en el tablero")
 
 
-    def get_words():
-        '''
-        Obtener las posibles palabras que se pueden formar, dada una palabra, ubicacion y orientacion 
-        Preguntar al usuario, por cada una de esas palabras, las que considera reales
-        '''
-    
-    def put_words():
-        '''
-        Modifica el estado del tablero con las palabras consideradas como correctas
-        '''
+
+    # Comprobar si las letras del jugador contienen las letras necesarias
+    def has_required_letters(self, player, word):
+        player_letters = [tile.letter for tile in player.tiles]
+        
+        for letter in word:
+            if letter not in player_letters:
+                return False
+            # Si la letra está en la mano del jugador, quítala para no usarla nuevamente
+            player_letters.remove(letter)
+        
+        return True
+
+
+    def first_move(self, word, orientation):
+        location = (7, 7)  # Ubicación fija para el primer movimiento
+
+        if self.validate_word(word, location, orientation):
+            self.place_word(word, location, orientation)
+
+        else:
+            raise ValueError("La palabra no es válida para el primer movimiento.")
 
 
     # Método para colocar una palabra en el tablero.
-    def place_word(self, word, location, orientation):
-        # 1. Validar la palabra, su ubicación y orientación.
-        self.validate_word(word, location, orientation)
+    def place_word(self, player):
+        if self.board.is_empty() == True:
+            word = input("Ingresa la palabra: ")
+            # Comprobar si las fichas del jugador contienen las letras necesarias
+            if not self.has_required_letters(player, word):
+                print(f"El jugador no tiene las letras necesarias para formar la palabra '{word}'.")
+            else:
+                row = int(input("Ingresa la fila: "))
+                col = int(input("Ingresa la columna: "))
+                direction = input("Ingresa la dirección (H para horizontal, V para vertical): ")
 
-        # 2. Obtener la palabra y las celdas afectadas en el tablero.
-        placed_word, affected_cells = self.board.place_word(word, location, orientation)
+        # Validar la palabra
+        try:
+            self.validate_word(word, (row, col), direction)
+        except InvalidWordException as e:
+            print(e)
+            return
 
-        # 3. Calcular el valor de la palabra.
-        word_value = self.calculate_word_value(placed_word)
-
-        # 4. Agregar el valor de la palabra al puntaje del jugador actual.
-        self.current_player.add_score(word_value)
-
-        # 5. Actualizar el tablero con la palabra colocada.
-        self.board.update_board(placed_word, affected_cells)
-
-        # 6. Cambiar al siguiente jugador para el próximo turno.
-        self.next_turn()
-
-        # 7. Devolver el valor de la palabra colocada.
-        return word_value

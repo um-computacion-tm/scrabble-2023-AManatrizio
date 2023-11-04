@@ -23,7 +23,6 @@ class TestBoard(unittest.TestCase):
     def test_initialize_multipliers(self):
         test_board = Board()
         test_board.initialize_multipliers()
-        test_board.show_board()
         
         # Casillas de Double Letter
         self.assertEqual(test_board.grid[0][3].multiplier, 2)
@@ -121,33 +120,17 @@ class TestBoard(unittest.TestCase):
         assert word_is_valid == True   
 
 
-    # def test_place_word_cross_vertical_fine(self):
-    #     fill_with = (
-    #         '               ' # 0
-    #         '               ' # 1
-    #         '               ' # 2
-    #         '               ' # 3
-    #         '               ' # 4
-    #         '               ' # 5
-    #         '               ' # 6
-    #         '       CASA    ' # 7
-    #         '        S      ' # 8
-    #         '        A      ' # 9
-    #         '        D      ' # 0
-    #         '        O      ' # 1
-    #         '               ' # 2
-    #         '               ' # 3
-    #         '               ' # 4
-    #     )   #012345678901234
-    #     board = Board(fill_with)
-    #     # show_board(board)
-    #     word = "FACULTAD"
-    #     location = (6, 11)
-    #     orientation = "V"
-    #     word_is_valid = board.validate_word_place_board(word, location, orientation)
-    #     assert word_is_valid == True
-
-
+    def test_place_word_not_empty_board_horizontal_fine(self):
+        board = Board()
+        board.grid[7][7].add_letter(Tile('C', 1))
+        board.grid[8][7].add_letter(Tile('A', 1)) 
+        board.grid[9][7].add_letter(Tile('S', 1)) 
+        board.grid[10][7].add_letter(Tile('A', 1)) 
+        word = "Facultad"
+        location = (8, 6)
+        orientation = "H"
+        word_is_valid = board.validate_word_place_board(word, location, orientation)
+        self.assertTrue(word_is_valid)
 
 
 if __name__ == '__main__':

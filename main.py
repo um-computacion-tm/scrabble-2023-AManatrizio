@@ -13,7 +13,7 @@ def start_game(players_count):
     return scrabble_game, bag_tiles
 
 def main():
-    print("Bienvenido!")
+    print("Bienvenido, vamos a jugar Scrabble!")
     while True:
         try:
             players_count = int(input("Ingrese cantidad de jugadores: "))
@@ -33,14 +33,11 @@ def main():
     for player in scrabble_game.players:
         scrabble_game.draw_initial_tiles(player)
 
-    board.initialize_multipliers()  # Establece los multiplicadores del tablero una vez
-
+    
     while not scrabble_game.is_game_over():
         
-        board = Board()  # Crea una instancia de la clase Board
-        board.initialize_multipliers() 
+        #board = Board()  # Crea una instancia de la clase Board
         
-
         # Mostrar las letras en la mano del jugador
         player_tiles = scrabble_game.current_player.tiles
         print(f"Letras en tu mano (Jugador {scrabble_game.current_player.player_number}): {', '.join([tile.letter for tile in player_tiles])}")
@@ -48,6 +45,7 @@ def main():
         # Realiza las acciones del jugador (ingresar palabra, pasar, cambiar fichas, etc.)
         action = input("¿Qué deseas hacer? (Ingresar palabra (a) / Pasar (b) / Cambiar fichas (c) / Terminar (t) / / Mostrar tablero (m)): ")
         if action == 'a':
+            # Aquí deberías tener la lógica para ingresar una palabra válida.
             word = input("Ingrese palabra: ")
             location_x = input("Ingrese posicion X: ")
             location_y = input("Ingrese posicion Y: ")
@@ -79,7 +77,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-

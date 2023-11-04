@@ -2,6 +2,18 @@ from game.cell import Cell
 from game.models import Tile
 
 
+"""
+    Gestiona el tablero de juego y verifica la validez de la colocación de palabras.
+    Métodos:
+        - __init__(self): Constructor de la clase que inicializa un tablero 15x15 con celdas vacías.
+        - initialize_multipliers(self): Inicializa los multiplicadores de celdas en el tablero de acuerdo con las reglas del juego.
+        - validate_word_inside_board(self, word, location, orientation): Verifica si una palabra puede colocarse dentro del tablero en una ubicación y orientación específicas.
+        - validate_word_out_of_board(self, word, location, orientation): Verifica si una palabra no puede colocarse fuera del tablero en una ubicación y orientación específicas.
+        - is_empty(self): Verifica si el tablero está vacío al comprobar si la celda en la posición [7][7] está vacía.
+        - validate_word_place_board(self, word, location, orientation): Verifica si una palabra puede colocarse en el tablero en una ubicación y orientación específicas.
+        - show_board(board): Muestra el estado actual del tablero, pero debe llamarse como un método de instancia.
+    """
+
 class Board:
     def __init__(self):
         # Crea un tablero de 15x15 inicializado con celdas vacías.
@@ -10,7 +22,6 @@ class Board:
             for _ in range(15)
         ]
         
-
 
     def initialize_multipliers(self):
         # diccionario que relaciona los tipos de celdas con las coordenadas correspondientes
@@ -38,11 +49,6 @@ class Board:
                 # Asignamos el multiplicador basado en el tipo de celda.
                 self.grid[row][col].multiplier = multiplier
                 self.grid[row][col].multiplier_type = multiplier_type
-
-
-
-
-
 
 
 
@@ -76,7 +82,8 @@ class Board:
             return True
         else:
             return False
-        
+    
+
     def validate_word_place_board(self, word, location: tuple, orientation):
         len_word = len(word)
         row = location[0]
@@ -92,7 +99,6 @@ class Board:
         return False  # La palabra no cabe en el tablero
 
             
-
 #metodo que muestra el tablero
     def show_board(board):
         print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))

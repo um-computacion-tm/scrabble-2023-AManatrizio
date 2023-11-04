@@ -56,7 +56,7 @@ class BagTiles:
     def put(self, tiles):
             # Añadir las fichas a la bolsa
             self.tiles.extend(tiles)
-            print("Fichas agregadas a la bolsa:", [tile.letter for tile in tiles])
+            #print("Fichas agregadas a la bolsa:", [tile.letter for tile in tiles])
 
     def take(self, count):
         # Tomar fichas de la bolsa
@@ -64,20 +64,11 @@ class BagTiles:
             selected_tiles = random.sample(self.tiles, count)
             for tile in selected_tiles:
                 self.tiles.remove(tile)
-            print("Fichas tomadas de la bolsa:", [tile.letter for tile in selected_tiles])
+            #print("Fichas tomadas de la bolsa:", [tile.letter for tile in selected_tiles])
             return selected_tiles
         else:
             raise ValueError("No hay suficientes fichas en la bolsa para tomar.")
         
-        
-    # def take(self, count):
-    #     tiles = []
-    #     for _ in range(count):
-    #         tiles.append(self.tiles.pop())
-    #     return tiles
-
-    # def put(self, tiles):
-    #     self.tiles.extend(tiles)
 
     def shuffle(self):
         random.shuffle(self.tiles)
