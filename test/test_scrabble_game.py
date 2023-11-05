@@ -162,71 +162,19 @@ class TestScrabbleGame(unittest.TestCase):
         self.assertFalse(scrabble_game.is_game_over())
 
 
-
-
-    def test_valid_first_move(self):
-        # Crea una instancia de la clase ScrabbleGame para la prueba
+    def test_place_word_first_move(self):
+        # Prueba colocar una palabra en el primer movimiento
         scrabble_game = ScrabbleGame(players_count=3)
-        
-        word = "INVALIDA"
+        word = "HOLA"
         orientation = "H"
+        scrabble_game.place_word(word, 7, 7, orientation)
 
-        # Asegúrate de que se lance una excepción
-        with self.assertRaises(ValueError):
-            scrabble_game.first_move(word, orientation)
-
-        # Verifica que la palabra no se haya colocado en el tablero
+        # Verifica que la palabra se coloque correctamente
         board = scrabble_game.board
-        self.assertIsNone(board.grid[7][7].letter)
-        self.assertIsNone(board.grid[7][8].letter)
-        self.assertIsNone(board.grid[7][9].letter)
-        self.assertIsNone(board.grid[7][10].letter)
-        self.assertIsNone(board.grid[7][11].letter)
-
-        
-    def test_invalid_first_move(self):
-        # Prueba un primer movimiento inválido
-        # Crea una instancia de la clase ScrabbleGame para la prueba
-        scrabble_game = ScrabbleGame(players_count=3)
-        
-        word = "INVALIDA"
-        orientation = "V"
-
-        # Asegúrate de que se lance una excepción
-        with self.assertRaises(ValueError):
-            scrabble_game.first_move(word, orientation)
-
-        # Verifica que la palabra no se haya colocado en el tablero
-        board = scrabble_game.board
-        self.assertIsNone(board.grid[7][7].letter)
-        self.assertIsNone(board.grid[7][8].letter)
-        self.assertIsNone(board.grid[7][9].letter)
-        self.assertIsNone(board.grid[7][10].letter)
-        self.assertIsNone(board.grid[7][11].letter)
-
-    # def test_valid_first_move_vertical(self):
-    #     # Prueba un primer movimiento válido con orientación vertical
-    #     # Crea una instancia de la clase ScrabbleGame para la prueba
-    #     scrabble_game = ScrabbleGame(players_count=3)
-        
-    #     word = "PALABRA"
-    #     orientation = "V"
-
-    #     # Asegúrate de que no se lance una excepción
-    #     try:
-    #         scrabble_game.first_move(word, orientation)
-    #     except ValueError:
-    #         self.fail("Se lanzó una excepción en un primer movimiento válido")
-
-    #     # Verifica que la palabra se haya colocado correctamente en el tablero
-    #     board = scrabble_game.board
-    #     self.assertEqual(board.grid[7][7].letter, "P")
-    #     self.assertEqual(board.grid[8][7].letter, "A")
-    #     self.assertEqual(board.grid[9][7].letter, "L")
-    #     self.assertEqual(board.grid[10][7].letter, "A")
-    #     self.assertEqual(board.grid[11][7].letter, "B")
-    #     self.assertEqual(board.grid[12][7].letter, "R")
-    #     self.assertEqual(board.grid[13][7].letter, "A")
+        self.assertEqual(board.grid[7][7].letter, "H")
+        self.assertEqual(board.grid[7][8].letter, "O")
+        self.assertEqual(board.grid[7][9].letter, "L")
+        self.assertEqual(board.grid[7][10].letter, "A")
 
 
 

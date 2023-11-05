@@ -21,7 +21,7 @@ class Board:
             [Cell() for _ in range(15)]
             for _ in range(15)
         ]
-        
+        self.initialize_multipliers()
 
     def initialize_multipliers(self):
         # diccionario que relaciona los tipos de celdas con las coordenadas correspondientes
@@ -29,7 +29,7 @@ class Board:
             'Double Letter': [(0, 3), (0, 11), (3, 0), (2, 6), (2, 8), (3, 7), (3, 14), (6, 2), (6, 6), (6, 8), (6, 12), (7, 3), (7, 11), (8, 2), (8, 6), (8,8), (8, 12), (11, 0), (11, 7), (11, 14), (12, 6), (12, 8), (14, 3), (14, 11)],
             'Triple Letter': [(1, 5), (1, 9), (5, 1), (5, 5), (5, 9), (5, 13), (9, 1), (9, 5), (9, 9), (9, 13), (13, 5), (13, 9)],
             'Double Word': [(1, 1), (2, 2), (3, 3), (4, 4), (10, 10), (11, 11), (12, 12), (13, 13), (14, 14), (1, 13), (2, 12), (3, 11), (4, 10), (10, 4), (11, 3), (12, 2), (13, 1)],
-            'Triple Word': [(0, 0), (7, 0), (14, 0), (0, 7), (0, 14), (7, 14), (14, 14), (14, 7)]
+            'Triple Word': [(0, 0), (7, 0), (14, 0), (0, 7), (0, 14), (7, 14), (14, 14), (14, 7)],
         }
 
         # Iteramos a través de las filas (15) y columnas (15) del tablero
@@ -78,10 +78,10 @@ class Board:
    
 # metodo para verificar si la celda en la posición [7][7] está vacía, entonces el tablero esta vacio.
     def is_empty(self):
-        if self.grid[7][7].letter is None:
-            return True
-        else:
-            return False
+        return self.grid[7][7].letter is None
+        
+    def is_cell_empty(self, row, col):
+        return self.board.grid[row][col].letter is None
     
 
     def validate_word_place_board(self, word, location: tuple, orientation):
@@ -98,13 +98,14 @@ class Board:
 
         return False  # La palabra no cabe en el tablero
 
-            
+
+
 #metodo que muestra el tablero
-    def show_board(board):
+    def show_board(self,board):
         print('\n  |' + ''.join([f' {str(row_index).rjust(2)} ' for row_index in range(15)]))
-        for row_index, row in enumerate(board.grid):
+        for row_index, row in enumerate(self.grid):
             print(
                 str(row_index).rjust(2) +
-                '| ' +
+                '|' +
                 ' '.join([repr(cell) for cell in row])
             )

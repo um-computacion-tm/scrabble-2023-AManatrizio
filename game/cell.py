@@ -6,14 +6,30 @@ class Cell:
         self.multiplier_type = multiplier_type
         self.multiplier_active = multiplier_active
         self.letter = letter
+        self.row = None  # Agregar el atributo 'row'
+        self.col = None  # Agregar el atributo 'col'
+
+    def set_coordinates(self, row, col):
+        self.row = row
+        self.col = col
 
     def __repr__(self):
         if self.letter:
             return repr(self.letter)
         if self.multiplier > 1:
             return f'{"W" if self.multiplier_type == "word" else "L"}x{self.multiplier}'
+        elif (self.row, self.col) == (7, 7):
+            return ' * '  # Agregamos una representación especial para la casilla "Star"
         else:
             return '   '
+
+    # def __repr__(self):
+    #     if self.letter:
+    #         return repr(self.letter)
+    #     if self.multiplier > 1:
+    #         return f'{"W" if self.multiplier_type == "word" else "L"}x{self.multiplier}'
+    #     else:
+    #         return '   '
 
 
     def add_letter(self, letter: Tile):

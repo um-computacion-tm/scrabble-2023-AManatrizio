@@ -2,6 +2,7 @@ from game.board import Board
 from game.player import Player
 from game.models import BagTiles
 from game.models import Tile
+from game.cell import Cell
 from game.dictionary import validate_word
 from game.dictionary import DictionaryConnectionError
 from game.dictionary_loader import load_local_dictionary
@@ -37,6 +38,7 @@ class ScrabbleGame:
         # Esto asegura que el juego comience con el primer jugador.
         self.current_player = self.players[0]
         self.players_want_to_end_game = [False] * players_count
+        self.has_made_first_move = False  # Inicializa el indicador como False al inicio del juego
         
 
     def draw_initial_tiles(self, player):
@@ -44,6 +46,11 @@ class ScrabbleGame:
         initial_tiles = self.bag_tiles.take(7)
         for tile in initial_tiles:
             player.tiles.append(tile)
+
+    def clear_board(self):
+        for row in self.board.grid:
+            for cell in row:
+                cell.letter = None
 
 
     #manejo de turnos
@@ -188,33 +195,49 @@ class ScrabbleGame:
         
         return True
 
+    def is_cell_empty(self, location_x, location_y, word, orientation):
+        # Verifica si la celda está vacía para la palabra y orientación dadas
+        row, col = location_x, location_y
+        for letter in word:
+            if self.board.grid[row][col].letter is not None:
+                return False
+            if orientation == 'H' or orientation == 'h':
+                col += 1
+            elif orientation == 'V' or orientation == 'v':
+                row += 1
+        return True
+    
+    def place_word(self, word, location_x, location_y, orientation):
+        word = word.upper()  # Convierte la palabra a mayúsculas
+        location = (location_x, location_y)
+        if self.board.is_empty():
+            self.first_move(word, orientation)
+        else:
+            self.place_word_at_location(word, location, orientation)
+
 
     def first_move(self, word, orientation):
         location = (7, 7)  # Ubicación fija para el primer movimiento
-
-        if self.validate_word(word, location, orientation):
-            self.place_word(word, location, orientation)
-
-        else:
-            raise ValueError("La palabra no es válida para el primer movimiento.")
+        self.place_word_at_location(word, location, orientation)
 
 
-    # Método para colocar una palabra en el tablero.
-    def place_word(self, player):
-        if self.board.is_empty() == True:
-            word = input("Ingresa la palabra: ")
-            # Comprobar si las fichas del jugador contienen las letras necesarias
-            if not self.has_required_letters(player, word):
-                print(f"El jugador no tiene las letras necesarias para formar la palabra '{word}'.")
+    def place_word_at_location(self, word, location, orientation):
+        row, col = location
+        for letter in word:
+            if orientation == 'H' or orientation == 'h':
+                if self.board.grid[row][col].letter is None:
+                    self.board.grid[row][col].letter = letter
+                else:
+                    raise ValueError("La celda no está vacía.")
+                col += 1
+            elif orientation == 'V' or orientation == 'v':
+                if self.board.grid[row][col].letter is None:
+                    self.board.grid[row][col].letter = letter
+                else:
+                    raise ValueError("La celda no está vacía.")
+                row += 1
             else:
-                row = int(input("Ingresa la fila: "))
-                col = int(input("Ingresa la columna: "))
-                direction = input("Ingresa la dirección (H para horizontal, V para vertical): ")
+                raise ValueError("Orientación no válida.")
+            
 
-        # Validar la palabra
-        try:
-            self.validate_word(word, (row, col), direction)
-        except InvalidWordException as e:
-            print(e)
-            return
 
